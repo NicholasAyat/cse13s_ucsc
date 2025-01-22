@@ -1,8 +1,29 @@
 #include <stdio.h>
+#include <stdbool.h>
+
+// Helper function to check if a character is a vowel
+bool is_vowel(char c) {
+    switch (c) {
+        case 'a': case 'e': case 'i': case 'o': case 'u':
+        case 'A': case 'E': case 'I': case 'O': case 'U':
+            return true;
+        default:
+            return false;
+    }
+}
 
 int main(void) {
-  // Finish this program. You'll almost certainly want to use a loop of some
-  // kind, getchar() and putchar(). Remember that the output of getchar() is the
-  // symbol EOF when you get to the end of the input.
-  return 0;
+    int c;
+    
+    // Read characters until EOF
+    while ((c = getchar()) != EOF) {
+        putchar(c);  // Output the character once
+        
+        // If it's a vowel, output it again
+        if (is_vowel(c)) {
+            putchar(c);
+        }
+    }
+    
+    return 0;
 }
