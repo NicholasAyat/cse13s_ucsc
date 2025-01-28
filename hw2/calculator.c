@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void remove_newline(char *s, int maxsize) {
   for (int i = 0; i < maxsize && s[i]; i++) {
@@ -25,17 +26,54 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // Your code should go here-ish. Feel free to change this loop as you need to.
-  // IMPORTANT: your output should either be the single line "ERROR\n", or the
-  // single number output.
-  while (fgets(buffer, BUFSIZE, infile)) {
-    // TODO: implement the calculator.
-    remove_newline(buffer, BUFSIZE);
-
-    // You should remove the following line. This is just to show that we are
-    // reading in lines from the input file.
-    printf("got this line: %s\n", buffer);
+  // Read initial value
+  if (!fgets(buffer, BUFSIZE, infile)) {
+    fclose(infile);
+    return 1;
   }
-
+  remove_newline(buffer, BUFSIZE);
+  
+  char *endptr;
+  long result = strtol(buffer, &endptr, 10);
+  
+  // Process operations
+  while (fgets(buffer, BUFSIZE, infile)) {
+    remove_newline(buffer, BUFSIZE);
+    
+    // Read operator
+    char operator = buffer[0];
+    
+    // Read next number
+    if (!fgets(buffer, BUFSIZE, infile)) {
+      break;
+    }
+    remove_newline(buffer, BUFSIZE);
+    
+    long num = strtol(buffer, &endptr, 10);
+    
+    // Perform operation
+    switch (operator) {
+      case '+':
+        result += num;
+        break;
+      case '-':
+        result -= num;
+        break;
+      case '*':
+        result *= num;
+        break;
+      case '/':
+        if (num == 0) {
+          printf("ERROR\n");
+          fclose(infile);
+          return 0;
+        }
+        result /= num;
+        break;
+    }
+  }
+  
+  printf("%ld\n", result);
+  fclose(infile);
   return 0;
 }
