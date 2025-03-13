@@ -3,13 +3,13 @@
   * author: *Nicholas Ayat* 
   * date: March 2025
 
-## Introduction
+## introduction
 
 We will design and implement a customer database using hash tables in C. The database will support operations such as adding, looking up, deleting, listing, and saving customer data. Each customer has an email address (unique key), name, shoe size, and favorite food. Data will be stored and retrieved from a TSV file.
 
-## Data Structure Design
+## data structure design
 
-### Customer Structure
+### customer structure
 Define a `Customer` struct to store customer data:
 
 ```c
@@ -22,7 +22,7 @@ typedef struct Customer {
 } Customer;
 ```
 
-### Hash Table Structure
+### hash table structure
 A hash table with separate chaining will be used:
 
 ```c
@@ -34,9 +34,9 @@ typedef struct HashTable {
 } HashTable;
 ```
 
-## Functional Design
+## functional design
 
-### Hash Function
+### hash function
 A simple hash function using djb2:
 
 ```c
@@ -50,69 +50,69 @@ unsigned int hash(char *str) {
 }
 ```
 
-### Initialization
+### initialization
 Create a hash table with `TABLE_SIZE` buckets, initializing each bucket to NULL.
 
 ```c
 HashTable *create_table();
 ```
 
-### Add Customer
+### add customer
 If the email exists, update the existing customer. Otherwise, insert a new node.
 
 ```c
 void add_customer(HashTable *table, char *email, char *name, int shoe_size, char *favorite_food);
 ```
 
-### Lookup Customer
+### lookup customer
 Find and return customer details based on email.
 
 ```c
 Customer *lookup_customer(HashTable *table, char *email);
 ```
 
-### Delete Customer
+### delete customer
 Find and remove a customer from the hash table, freeing allocated memory.
 
 ```c
 void delete_customer(HashTable *table, char *email);
 ```
 
-### List Customers
+### list customers
 Iterate through all buckets and print stored customer details.
 
 ```c
 void list_customers(HashTable *table);
 ```
 
-### Load from File
+### load from file
 Read `customers.tsv`, parse each line, and populate the hash table.
 
 ```c
 void load_customers(HashTable *table, const char *filename);
 ```
 
-### Save to File
+### save to file
 Write the hash table contents to `customers.tsv` in TSV format.
 
 ```c
 void save_customers(HashTable *table, const char *filename);
 ```
 
-### Cleanup
+### cleanup
 Free all allocated memory, including customer entries and the hash table itself.
 
 ```c
 void free_table(HashTable *table);
 ```
 
-## Input Handling and Edge Cases
+## input handling and edge cases
 
 - Reject duplicate email addresses and update instead.
 - Strip or replace tabs in user input to maintain TSV format integrity.
 - Validate numerical input for shoe size.
 
-## Memory Management & Debugging
+## memory management & debugging
 
 - Use `malloc` and `free` properly to prevent leaks.
 - Employ `Valgrind` for leak detection:
@@ -121,7 +121,7 @@ void free_table(HashTable *table);
   valgrind --leak-check=full ./businessdb
   ```
 
-## File Organization
+## file organization
 
 - `main.c`: Handles user interaction.
 - `hashtable.c`: Implements hash table functions.
@@ -130,7 +130,7 @@ void free_table(HashTable *table);
 - `fileio.h`: Contains function prototypes for file operations.
 - `Makefile`: Builds the project with necessary flags.
 
-## Testing Plan
+## testing plan
 
 - Implement `test_hashtable.c` to verify hash table operations.
 - Create `test_fileio.c` to ensure correct file parsing and writing.
